@@ -1,10 +1,11 @@
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Home, Search, User, LogOut } from 'lucide-react';
+import { Home, Search, User, Bell, LogOut } from 'lucide-react';
 import { clearUser } from '../utils/storage';
 
 const navItems = [
   { path: '/', icon: Home, label: 'Home' },
   { path: '/explore', icon: Search, label: 'Explore' },
+  { path: '/notifications', icon: Bell, label: 'Alerts' },
   { path: '/profile', icon: User, label: 'Profile' },
 ];
 
@@ -26,20 +27,20 @@ export default function BottomNav() {
             <button
               key={path}
               onClick={() => navigate(path)}
-              className={`flex flex-col items-center gap-0.5 px-4 py-1 rounded-xl transition-colors ${
+              className={`flex flex-col items-center gap-0.5 px-3 py-1 rounded-xl transition-colors ${
                 active ? 'text-primary' : 'text-muted-foreground hover:text-foreground'
               }`}
             >
-              <Icon size={22} strokeWidth={active ? 2.5 : 1.8} />
+              <Icon size={21} strokeWidth={active ? 2.5 : 1.8} />
               <span className="text-[10px] font-medium">{label}</span>
             </button>
           );
         })}
         <button
           onClick={handleLogout}
-          className="flex flex-col items-center gap-0.5 px-4 py-1 rounded-xl text-muted-foreground hover:text-destructive transition-colors"
+          className="flex flex-col items-center gap-0.5 px-3 py-1 rounded-xl text-muted-foreground hover:text-destructive transition-colors"
         >
-          <LogOut size={22} strokeWidth={1.8} />
+          <LogOut size={21} strokeWidth={1.8} />
           <span className="text-[10px] font-medium">Logout</span>
         </button>
       </div>
