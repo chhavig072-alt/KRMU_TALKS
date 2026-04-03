@@ -141,7 +141,7 @@ export default function Notifications() {
         </AnimatePresence>
       </div>
 
-      <BottomNav />
+      
     </div>
   );
 }

@@ -86,7 +86,7 @@ export default function Explore() {
         )}
       </AnimatePresence>
 
-      <BottomNav />
+      
     </div>
   );
 }

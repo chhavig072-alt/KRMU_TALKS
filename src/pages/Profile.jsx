@@ -113,7 +113,7 @@ export default function Profile() {
         ))}
       </div>
 
-      <BottomNav />
+      
     </div>
   );
 }

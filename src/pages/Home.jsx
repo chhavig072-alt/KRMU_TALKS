@@ -40,7 +40,7 @@ export default function Home() {
       </div>
 
       <CreatePost open={showCreate} onClose={() => setShowCreate(false)} onCreated={loadPosts} />
-      <BottomNav />
+      
     </div>
   );
 }
