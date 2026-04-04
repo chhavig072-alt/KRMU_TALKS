@@ -176,7 +176,6 @@ export default function Profile() {
     </div>
   );
 }
-  const [posts, setPosts] = useState([]);
   const [editing, setEditing] = useState(false);
   const [bio, setBio] = useState('');
   const [department, setDepartment] = useState('');
