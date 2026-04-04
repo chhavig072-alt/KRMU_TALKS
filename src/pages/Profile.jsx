@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
-import { getUser, getPosts, getProfile, saveProfile } from '../utils/storage';
+import { getUser, getPosts, getProfile, saveProfile, getFollowersCount, getFollowingCount } from '../utils/storage';
 import PostCard from '../components/PostCard';
-import { Edit2, Check, FileText, Heart, Camera, Link } from 'lucide-react';
+import { Edit2, Check, FileText, Heart, Camera, Link, Users, UserPlus } from 'lucide-react';
 
 export default function Profile() {
   const user = getUser();
