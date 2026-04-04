@@ -1,12 +1,14 @@
 import { useState, useEffect, useRef } from 'react';
-import { getUser, getPosts, getProfile, saveProfile } from '../utils/storage';
+import { getUser, getPosts, getProfile, saveProfile, getFollowersCount, getFollowingCount } from '../utils/storage';
 import PostCard from '../components/PostCard';
-import { Edit2, Check, FileText, Heart, Camera, Link } from 'lucide-react';
+import { Edit2, Check, FileText, Heart, Camera, Link, Users, UserPlus } from 'lucide-react';
 
 export default function Profile() {
   const user = getUser();
   const [posts, setPosts] = useState([]);
   const [editing, setEditing] = useState(false);
+  const [followers, setFollowers] = useState(0);
+  const [following, setFollowing] = useState(0);
   const [bio, setBio] = useState('');
   const [department, setDepartment] = useState('');
   const [photoUrl, setPhotoUrl] = useState('');
@@ -22,10 +24,16 @@ export default function Profile() {
       setPhotoUrl(profile.photoUrl || '');
     }
     setPosts(getPosts().filter((p) => p.email === user.email));
+    setFollowers(getFollowersCount(user.email));
+    setFollowing(getFollowingCount(user.email));
   }, []);
 
   const loadPosts = () => {
-    if (user) setPosts(getPosts().filter((p) => p.email === user.email));
+    if (user) {
+      setPosts(getPosts().filter((p) => p.email === user.email));
+      setFollowers(getFollowersCount(user.email));
+      setFollowing(getFollowingCount(user.email));
+    }
   };
 
   const handleSave = () => {
@@ -141,7 +149,7 @@ export default function Profile() {
             </div>
           )}
 
-          <div className="flex gap-6 mt-4 pt-4 border-t border-border">
+          <div className="flex gap-5 mt-4 pt-4 border-t border-border flex-wrap">
             <div className="flex items-center gap-2">
               <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
                 <FileText size={16} className="text-primary" />
@@ -160,6 +168,24 @@ export default function Profile() {
                   {posts.reduce((sum, p) => sum + p.likes.length, 0)}
                 </p>
                 <p className="text-xs text-muted-foreground">Likes</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center">
+                <Users size={16} className="text-secondary-foreground" />
+              </div>
+              <div>
+                <p className="text-lg font-bold text-foreground leading-none">{followers}</p>
+                <p className="text-xs text-muted-foreground">Followers</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-full bg-accent flex items-center justify-center">
+                <UserPlus size={16} className="text-accent-foreground" />
+              </div>
+              <div>
+                <p className="text-lg font-bold text-foreground leading-none">{following}</p>
+                <p className="text-xs text-muted-foreground">Following</p>
               </div>
             </div>
           </div>

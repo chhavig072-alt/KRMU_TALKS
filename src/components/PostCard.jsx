@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { Heart, MessageCircle, BarChart3, Trash2 } from 'lucide-react';
-import { getUser, getPosts, savePosts } from '../utils/storage';
+import { Heart, MessageCircle, BarChart3, Trash2, UserPlus, UserCheck } from 'lucide-react';
+import { getUser, getPosts, savePosts, isFollowing, followUser, unfollowUser } from '../utils/storage';
 import { motion, AnimatePresence } from 'framer-motion';
 
 function timeAgo(timestamp) {
@@ -75,6 +75,17 @@ export default function PostCard({ post, onUpdate }) {
 
   const isOwner = user && post.email === user.email;
   const hasVoted = user && post.poll && post.poll.options.some((o) => o.votes.includes(user.email));
+  const [following, setFollowing] = useState(() => user ? isFollowing(user.email, post.email) : false);
+
+  const handleFollow = () => {
+    if (!user || isOwner) return;
+    if (following) {
+      unfollowUser(user.email, post.email);
+    } else {
+      followUser(user.email, post.email);
+    }
+    setFollowing(!following);
+  };
 
   return (
     <motion.div
@@ -88,8 +99,23 @@ export default function PostCard({ post, onUpdate }) {
         <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold text-sm">
           {post.username.charAt(0).toUpperCase()}
         </div>
-        <div className="flex-1">
-          <p className="font-semibold text-sm text-foreground">{post.username}</p>
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-2">
+            <p className="font-semibold text-sm text-foreground truncate">{post.username}</p>
+            {!isOwner && user && (
+              <button
+                onClick={handleFollow}
+                className={`flex items-center gap-1 text-xs px-2.5 py-1 rounded-full border transition-all duration-200 hover:scale-105 active:scale-95 shrink-0 ${
+                  following
+                    ? 'border-primary/30 bg-primary/10 text-primary'
+                    : 'border-border text-muted-foreground hover:border-primary/40 hover:text-primary'
+                }`}
+              >
+                {following ? <UserCheck size={12} /> : <UserPlus size={12} />}
+                {following ? 'Following' : 'Follow'}
+              </button>
+            )}
+          </div>
           <p className="text-xs text-muted-foreground">{timeAgo(post.createdAt)}</p>
         </div>
         {isOwner && (
