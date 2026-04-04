@@ -27,8 +27,8 @@ export default function BottomNav() {
             <button
               key={path}
               onClick={() => navigate(path)}
-              className={`flex flex-col items-center gap-0.5 px-3 py-1 rounded-xl transition-colors ${
-                active ? 'text-primary' : 'text-muted-foreground hover:text-foreground'
+              className={`flex flex-col items-center gap-0.5 px-3 py-1 rounded-xl transition-all duration-200 ${
+                active ? 'text-primary scale-110 drop-shadow-[0_0_8px_hsl(var(--primary)/0.4)]' : 'text-muted-foreground hover:text-foreground hover:scale-105 active:scale-95'
               }`}
             >
               <Icon size={21} strokeWidth={active ? 2.5 : 1.8} />
