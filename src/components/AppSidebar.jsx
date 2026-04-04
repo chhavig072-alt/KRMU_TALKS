@@ -97,11 +97,11 @@ export default function AppSidebar() {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton
-              tooltip={dark ? 'Light mode' : 'Dark mode'}
-              onClick={() => setDark(!dark)}
+              tooltip={`Theme: ${currentTheme.label}`}
+              onClick={cycleTheme}
             >
-              {dark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-              {!collapsed && <span>{dark ? 'Light mode' : 'Dark mode'}</span>}
+              <ThemeIcon className="h-4 w-4" />
+              {!collapsed && <span>{currentTheme.label} mode</span>}
             </SidebarMenuButton>
           </SidebarMenuItem>
           <SidebarMenuItem>
