@@ -29,7 +29,11 @@ export default function Profile() {
   }, []);
 
   const loadPosts = () => {
-    if (user) setPosts(getPosts().filter((p) => p.email === user.email));
+    if (user) {
+      setPosts(getPosts().filter((p) => p.email === user.email));
+      setFollowers(getFollowersCount(user.email));
+      setFollowing(getFollowingCount(user.email));
+    }
   };
 
   const handleSave = () => {
