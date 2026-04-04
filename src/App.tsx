@@ -1,8 +1,10 @@
 import { BrowserRouter, Route, Routes, Navigate, useLocation } from "react-router-dom";
+import { AnimatePresence } from "framer-motion";
 import { initializePosts } from "./data/seedData";
 import { getUser } from "./utils/storage";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import AppSidebar from "./components/AppSidebar";
+import PageTransition from "./components/PageTransition";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
 import Explore from "./pages/Explore";
@@ -35,16 +37,25 @@ function AppLayout({ children }) {
   );
 }
 
+function AnimatedRoutes() {
+  const location = useLocation();
+  return (
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
+        <Route path="/login" element={<PageTransition><Login /></PageTransition>} />
+        <Route path="/" element={<ProtectedRoute><AppLayout><PageTransition><Home /></PageTransition></AppLayout></ProtectedRoute>} />
+        <Route path="/explore" element={<ProtectedRoute><AppLayout><PageTransition><Explore /></PageTransition></AppLayout></ProtectedRoute>} />
+        <Route path="/profile" element={<ProtectedRoute><AppLayout><PageTransition><Profile /></PageTransition></AppLayout></ProtectedRoute>} />
+        <Route path="/notifications" element={<ProtectedRoute><AppLayout><PageTransition><Notifications /></PageTransition></AppLayout></ProtectedRoute>} />
+        <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />
+      </Routes>
+    </AnimatePresence>
+  );
+}
+
 const App = () => (
   <BrowserRouter>
-    <Routes>
-      <Route path="/login" element={<Login />} />
-      <Route path="/" element={<ProtectedRoute><AppLayout><Home /></AppLayout></ProtectedRoute>} />
-      <Route path="/explore" element={<ProtectedRoute><AppLayout><Explore /></AppLayout></ProtectedRoute>} />
-      <Route path="/profile" element={<ProtectedRoute><AppLayout><Profile /></AppLayout></ProtectedRoute>} />
-      <Route path="/notifications" element={<ProtectedRoute><AppLayout><Notifications /></AppLayout></ProtectedRoute>} />
-      <Route path="*" element={<NotFound />} />
-    </Routes>
+    <AnimatedRoutes />
   </BrowserRouter>
 );
 
