@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Heart, MessageCircle, BarChart3 } from 'lucide-react';
+import { Heart, MessageCircle, BarChart3, Trash2 } from 'lucide-react';
 import { getUser, getPosts, savePosts } from '../utils/storage';
 import { motion, AnimatePresence } from 'framer-motion';
 
