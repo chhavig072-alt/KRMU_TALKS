@@ -42,6 +42,7 @@ export default function AppSidebar() {
     root.classList.remove('dark', 'gradient');
     if (theme !== 'light') root.classList.add(theme);
     localStorage.setItem('krmu_theme', theme);
+    console.log('[Theme] Applied:', theme, 'Classes:', root.className);
   }, [theme]);
 
   const cycleTheme = () => {
