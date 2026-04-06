@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { getUser, getPosts, getProfile, saveProfile, getFollowersCount, getFollowingCount } from '../utils/storage';
 import PostCard from '../components/PostCard';
+import FollowListModal from '../components/FollowListModal';
 import { Edit2, Check, FileText, Heart, Camera, Link, Users, UserPlus } from 'lucide-react';
 
 export default function Profile() {
@@ -13,6 +14,7 @@ export default function Profile() {
   const [department, setDepartment] = useState('');
   const [photoUrl, setPhotoUrl] = useState('');
   const [photoMode, setPhotoMode] = useState('file');
+  const [followModal, setFollowModal] = useState({ open: false, tab: 'followers' });
   const fileInputRef = useRef(null);
 
   useEffect(() => {
@@ -170,24 +172,24 @@ export default function Profile() {
                 <p className="text-xs text-muted-foreground">Likes</p>
               </div>
             </div>
-            <div className="flex items-center gap-2">
+            <button onClick={() => setFollowModal({ open: true, tab: 'followers' })} className="flex items-center gap-2 hover:bg-secondary/50 rounded-xl px-2 py-1 transition-colors">
               <div className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center">
                 <Users size={16} className="text-secondary-foreground" />
               </div>
-              <div>
+              <div className="text-left">
                 <p className="text-lg font-bold text-foreground leading-none">{followers}</p>
                 <p className="text-xs text-muted-foreground">Followers</p>
               </div>
-            </div>
-            <div className="flex items-center gap-2">
+            </button>
+            <button onClick={() => setFollowModal({ open: true, tab: 'following' })} className="flex items-center gap-2 hover:bg-accent/50 rounded-xl px-2 py-1 transition-colors">
               <div className="w-8 h-8 rounded-full bg-accent flex items-center justify-center">
                 <UserPlus size={16} className="text-accent-foreground" />
               </div>
-              <div>
+              <div className="text-left">
                 <p className="text-lg font-bold text-foreground leading-none">{following}</p>
                 <p className="text-xs text-muted-foreground">Following</p>
               </div>
-            </div>
+            </button>
           </div>
         </div>
 
@@ -197,6 +199,13 @@ export default function Profile() {
           <PostCard key={post.id} post={post} onUpdate={loadPosts} />
         ))}
       </div>
+
+      <FollowListModal
+        open={followModal.open}
+        onOpenChange={(open) => { setFollowModal((m) => ({ ...m, open })); if (!open) loadPosts(); }}
+        userEmail={user.email}
+        defaultTab={followModal.tab}
+      />
     </div>
   );
 }
