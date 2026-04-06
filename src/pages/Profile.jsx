@@ -14,6 +14,7 @@ export default function Profile() {
   const [department, setDepartment] = useState('');
   const [photoUrl, setPhotoUrl] = useState('');
   const [photoMode, setPhotoMode] = useState('file');
+  const [followModal, setFollowModal] = useState({ open: false, tab: 'followers' });
   const fileInputRef = useRef(null);
 
   useEffect(() => {
